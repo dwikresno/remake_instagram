@@ -4,7 +4,7 @@
 - Nested Navigation Bar like current instagram navigation 
 - and of course the important one Layout of Instagram Explore  
 
-Demo Apps [link to Download App!] (https://github.com/dwikresno/remake_instagram/blob/master/app/app.apk)
+Demo Apps [Link to Download App!](https://github.com/dwikresno/remake_instagram/blob/master/app/app.apk)
 
 Or Your can scan this QR:
 
