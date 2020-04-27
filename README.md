@@ -6,6 +6,6 @@
 
 Demo Apps [Link to Download App!](https://github.com/dwikresno/remake_instagram/blob/master/app/app.apk)
 
-Or Your can scan this QR:
+Or You can scan this QR:
 
 ![Image of rq-app](https://github.com/dwikresno/remake_instagram/blob/master/app/qr-app.png)
