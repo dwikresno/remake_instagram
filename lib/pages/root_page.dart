@@ -30,11 +30,11 @@ class _RootPageState extends State<RootPage> {
           icon: FontAwesomeIcons.search,
           text: "",
         ),
-        NestedNavItemKey.add_post: NestedNavigatorItem(
-          initialRoute: Routes.explore,
-          icon: FontAwesomeIcons.plusSquare,
-          text: "add_post",
-        ),
+        // NestedNavItemKey.add_post: NestedNavigatorItem(
+        //   initialRoute: Routes.explore,
+        //   icon: FontAwesomeIcons.plusSquare,
+        //   text: "add_post",
+        // ),
         NestedNavItemKey.activity: NestedNavigatorItem(
           initialRoute: Routes.activity,
           icon: FontAwesomeIcons.heart,
