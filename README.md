@@ -1,11 +1,16 @@
-# Ramake Instagram By Dwi Kresno
+# instagram_new
 
-- Focus on 3 main slide on instagram (Strory Camera, Post, DM) 
-- Nested Navigation Bar like current instagram navigation 
-- and of course the important one Layout of Instagram Explore  
+A new Flutter project.
 
-Demo Apps [Link to Download App!](https://github.com/dwikresno/remake_instagram/blob/master/app/app.apk?raw=true)
+## Getting Started
 
-Or You can scan this QR:
+This project is a starting point for a Flutter application.
 
-![Image of rq-app](https://github.com/dwikresno/remake_instagram/blob/master/app/qr-app.png)
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
