@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:io';
 
@@ -10,6 +12,8 @@ import 'package:instagram_new/ui/home/HomePage.dart';
 import 'package:instagram_new/ui/profile/profile_view.dart';
 import 'package:instagram_new/ui/reel/ReelsPage.dart';
 import 'package:instagram_new/viewmodel/theme_view_model.dart';
+
+import 'keep_alive.dart';
 
 class MainTabPage extends StatefulWidget {
   MainTabPage({Key? key}) : super(key: key);
@@ -43,24 +47,19 @@ class _MainTabmenutate extends State<MainTabPage>
   @override
   void initState() {
     pages = [
-      Container(
-        key: PageStorageKey(UniqueKey()),
+      KeepAlivePage(
         child: HomePage(),
       ),
-      Container(
-        key: PageStorageKey(UniqueKey()),
+      KeepAlivePage(
         child: ExplorePage(),
       ),
-      Container(
-        key: PageStorageKey(UniqueKey()),
+      KeepAlivePage(
         child: ReelsPage(),
       ),
-      Container(
-        key: PageStorageKey(UniqueKey()),
+      KeepAlivePage(
         child: Container(),
       ),
-      Container(
-        key: PageStorageKey(UniqueKey()),
+      KeepAlivePage(
         child: ProfileView(),
       ),
     ];
