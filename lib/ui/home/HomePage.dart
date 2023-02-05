@@ -3,7 +3,9 @@
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:instagram_new/ui/feeds/VideoFeedPlayer.dart';
+import 'package:instagram_new/viewmodel/theme_view_model.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -78,180 +80,192 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Image.asset(
-          "assets/png/logo-home.png",
-          width: 100,
-        ),
-        actions: [
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 10,
+    return GetBuilder<ThemeViewModel>(
+      builder: (tx) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            title: Image.asset(
+              "assets/png/logo/logo-home.png",
+              width: 100,
             ),
-            child: SvgPicture.asset(
-              "assets/svg/navbar/add-post.svg",
-              width: 22,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: SvgPicture.asset(
-              "assets/svg/navbar/activity.svg",
-              width: 22,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: SvgPicture.asset(
-              "assets/svg/navbar/messenger.svg",
-              width: 24,
-            ),
-          ),
-        ],
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          InViewNotifierCustomScrollView(
-            initialInViewIds: ['0'],
-            isInViewPortCondition: (double deltaTop, double deltaBottom,
-                double viewPortDimension) {
-              return deltaTop < (0.5 * viewPortDimension) &&
-                  deltaBottom > (0.5 * viewPortDimension);
-            },
-            controller: scrollController!,
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: widgetStory(),
+            actions: [
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: SvgPicture.asset(
+                  "assets/svg/navbar/add-post.svg",
+                  width: 22,
+                  color: tx.themeTextColor,
+                ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.only(top: 10, bottom: 50.0),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 50.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Image.network(
-                                      "https://images.unsplash.com/photo-1564564295391-7f24f26f568b",
-                                      fit: BoxFit.cover,
-                                      width: 40,
-                                      height: 40,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 4),
-                                    child: Text(
-                                      'Naruto',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: SvgPicture.asset(
+                  "assets/svg/navbar/activity.svg",
+                  width: 22,
+                  color: tx.themeTextColor,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: SvgPicture.asset(
+                  "assets/svg/navbar/messenger.svg",
+                  width: 24,
+                  color: tx.themeTextColor,
+                ),
+              ),
+            ],
+          ),
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              InViewNotifierCustomScrollView(
+                initialInViewIds: const ['0'],
+                isInViewPortCondition: (double deltaTop, double deltaBottom,
+                    double viewPortDimension) {
+                  return deltaTop < (0.5 * viewPortDimension) &&
+                      deltaBottom > (0.5 * viewPortDimension);
+                },
+                controller: scrollController!,
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: widgetStory(),
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.only(top: 10, bottom: 50.0),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 50.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.network(
+                                          "https://images.unsplash.com/photo-1564564295391-7f24f26f568b",
+                                          fit: BoxFit.cover,
+                                          width: 40,
+                                          height: 40,
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 4),
+                                        child: Text(
+                                          'Surti',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Container(
+                                        child: Icon(Icons.more_vert),
+                                      )
+                                    ],
                                   ),
-                                  Spacer(),
-                                  Container(
-                                    child: Icon(Icons.more_vert),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: 300.0,
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.symmetric(vertical: 10.0),
-                              child: LayoutBuilder(
-                                builder: (BuildContext context,
-                                    BoxConstraints constraints) {
-                                  return InViewNotifierWidget(
-                                    id: '$index',
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  height: 300.0,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                                  child: LayoutBuilder(
                                     builder: (BuildContext context,
-                                        bool isInView, Widget? child) {
-                                      return VideoFeedPlayer(
-                                          play: isInView,
-                                          url:
-                                              'https://media.istockphoto.com/id/1152765188/id/video/pengusaha-bekerja-di-kafe-saat-coffee-break.mp4?s=mp4-640x640-is&k=20&c=oAKpxgjTQ2ffW3OAOrl5kzaAoUtA_HOBqExt9xdw35Q=');
+                                        BoxConstraints constraints) {
+                                      return InViewNotifierWidget(
+                                        id: '$index',
+                                        builder: (BuildContext context,
+                                            bool isInView, Widget? child) {
+                                          return VideoFeedPlayer(
+                                              play: isInView,
+                                              url:
+                                                  'https://media.istockphoto.com/id/1152765188/id/video/pengusaha-bekerja-di-kafe-saat-coffee-break.mp4?s=mp4-640x640-is&k=20&c=oAKpxgjTQ2ffW3OAOrl5kzaAoUtA_HOBqExt9xdw35Q=');
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/reel/like.svg",
+                                          width: 22,
+                                          color: tx.themeTextColor,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/reel/comment.svg",
+                                          width: 22,
+                                          color: tx.themeTextColor,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/reel/share.svg",
+                                          width: 22,
+                                          color: tx.themeTextColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      "assets/svg/reel/like.svg",
-                                      width: 22,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      "assets/svg/reel/comment.svg",
-                                      width: 22,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      "assets/svg/reel/share.svg",
-                                      width: 22,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    childCount: 10,
+                          );
+                        },
+                        childCount: 10,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              IgnorePointer(
+                ignoring: true,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    // height: 200.0,
+                    // color: Colors.redAccent.withOpacity(0.2),
+                    height: 1.0,
+                    color: Colors.transparent,
                   ),
                 ),
               ),
             ],
           ),
-          IgnorePointer(
-            ignoring: true,
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                // height: 200.0,
-                // color: Colors.redAccent.withOpacity(0.2),
-                height: 1.0,
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -407,7 +421,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 4),
                         child: Text(
-                          'OnePunchMan',
+                          'Mawar',
                           overflow: TextOverflow.ellipsis,
                         ),
                       )

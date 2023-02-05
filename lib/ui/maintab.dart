@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:instagram_new/ui/explore/explore.dart';
 import 'package:instagram_new/ui/home/HomePage.dart';
+import 'package:instagram_new/ui/profile/profile_view.dart';
 import 'package:instagram_new/ui/reel/ReelsPage.dart';
+import 'package:instagram_new/viewmodel/theme_view_model.dart';
 
 class MainTabPage extends StatefulWidget {
   MainTabPage({Key? key}) : super(key: key);
@@ -24,6 +28,7 @@ class _MainTabmenutate extends State<MainTabPage>
   final pageController = PageController();
   DateTime? backButtonPressTime;
   static const snackBarDuration = Duration(seconds: 2);
+  final ThemeViewModel themeViewModel = Get.put(ThemeViewModel());
 
   _onItemTapped(index) async {
     setState(() {
@@ -56,7 +61,7 @@ class _MainTabmenutate extends State<MainTabPage>
       ),
       Container(
         key: PageStorageKey(UniqueKey()),
-        child: Container(),
+        child: ProfileView(),
       ),
     ];
     super.initState();
@@ -73,174 +78,195 @@ class _MainTabmenutate extends State<MainTabPage>
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
-        body: Stack(
-          children: [
-            GestureDetector(
-              onTapUp: (value) {
-                setState(() {
-                  widthTabBar = 0.0;
-                  widthOpenBtn = 25.0;
-                });
-              },
-              onTapDown: (value) {
-                setState(() {
-                  widthTabBar = 0.0;
-                  widthOpenBtn = 25.0;
-                });
-              },
-              onTap: () {
-                setState(() {
-                  widthTabBar = 0.0;
-                  widthOpenBtn = 25.0;
-                });
-              },
-              child: PageStorage(
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: pages!,
-                  controller: pageController,
-                  onPageChanged: onPageChanged,
+        body: GetBuilder<ThemeViewModel>(builder: (tx) {
+          return Stack(
+            children: [
+              GestureDetector(
+                onTapUp: (value) {
+                  setState(() {
+                    widthTabBar = 0.0;
+                    widthOpenBtn = 25.0;
+                  });
+                },
+                onTapDown: (value) {
+                  setState(() {
+                    widthTabBar = 0.0;
+                    widthOpenBtn = 25.0;
+                  });
+                },
+                onTap: () {
+                  setState(() {
+                    widthTabBar = 0.0;
+                    widthOpenBtn = 25.0;
+                  });
+                },
+                child: PageStorage(
+                  bucket: bucket,
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    onPageChanged: onPageChanged,
+                    children: pages!,
+                  ),
                 ),
-                bucket: bucket,
               ),
-            ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2.2,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            widthTabBar = widthTabBar > 0.0 ? 0.0 : 50;
-                            widthOpenBtn = 0.0;
-                          });
-                        },
-                        child: Visibility(
-                          visible: selectedMenu != 2,
-                          child: AnimatedContainer(
-                            duration: Duration(seconds: 1),
-                            curve: Curves.fastOutSlowIn,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(50),
-                                bottomLeft: Radius.circular(50),
-                              ),
-                              color: Colors.white,
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.grey[200]!,
-                              ),
-                            ),
-                            width: widthOpenBtn,
-                            height: 35,
-                            child: Center(
-                              child: Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                              ),
-                            ),
+              tx.isNavBarBottom
+                  ? SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 40,
+                          color:
+                              selectedMenu != 2 ? tx.themeColor : Colors.black,
+                          child: Row(
+                            children: menu(tx),
                           ),
                         ),
                       ),
-                      Align(
+                    )
+                  : SafeArea(
+                      child: Align(
                         alignment: Alignment.bottomRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  widthTabBar = widthTabBar > 0.0 ? 0.0 : 50;
-                                  widthOpenBtn = 0.0;
-                                });
-                                Timer(Duration(seconds: 3), () {
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 2.2,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
                                   setState(() {
-                                    widthOpenBtn = 25.0;
-                                    widthTabBar = 0;
+                                    widthTabBar = widthTabBar > 0.0 ? 0.0 : 50;
+                                    widthOpenBtn = 0.0;
                                   });
-                                });
-                              },
-                              child: Visibility(
-                                visible: selectedMenu == 2,
-                                child: AnimatedContainer(
-                                  duration: Duration(seconds: 1),
-                                  curve: Curves.fastOutSlowIn,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(50),
-                                      bottomLeft: Radius.circular(50),
-                                    ),
-                                    color: Colors.grey[200]!,
-                                  ),
-                                  width: widthOpenBtn,
-                                  height: 35,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      left: 1,
-                                      top: 1,
-                                      bottom: 1,
-                                    ),
+                                },
+                                child: Visibility(
+                                  visible: selectedMenu != 2,
+                                  child: AnimatedContainer(
+                                    duration: Duration(seconds: 1),
+                                    curve: Curves.fastOutSlowIn,
                                     decoration: BoxDecoration(
-                                      color: Colors.black,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(50),
                                         bottomLeft: Radius.circular(50),
                                       ),
+                                      color: tx.themeColor,
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.grey[200]!,
+                                      ),
                                     ),
+                                    width: widthOpenBtn,
+                                    height: 35,
                                     child: Center(
                                       child: Icon(
                                         Icons.arrow_back_ios_new_rounded,
-                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: AnimatedContainer(
-                                width: widthTabBar,
-                                height:
-                                    MediaQuery.of(context).size.height / 2.5,
-                                decoration: BoxDecoration(
-                                  color: selectedMenu != 2
-                                      ? Colors.white
-                                      : Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    // bottomLeft: Radius.circular(20),
-                                  ),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.grey[200]!,
-                                  ),
-                                ),
-                                duration: Duration(seconds: 1),
-                                curve: Curves.fastOutSlowIn,
+                              Align(
+                                alignment: Alignment.bottomRight,
                                 child: Column(
-                                  children: menu(),
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          widthTabBar =
+                                              widthTabBar > 0.0 ? 0.0 : 50;
+                                          widthOpenBtn = 0.0;
+                                        });
+                                        Timer(Duration(seconds: 3), () {
+                                          setState(() {
+                                            widthOpenBtn = 25.0;
+                                            widthTabBar = 0;
+                                          });
+                                        });
+                                      },
+                                      child: Visibility(
+                                        visible: selectedMenu == 2,
+                                        child: AnimatedContainer(
+                                          duration: Duration(seconds: 1),
+                                          curve: Curves.fastOutSlowIn,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(50),
+                                              bottomLeft: Radius.circular(50),
+                                            ),
+                                            color: tx.themeColor,
+                                          ),
+                                          width: widthOpenBtn,
+                                          height: 35,
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              left: 1,
+                                              top: 1,
+                                              bottom: 1,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(50),
+                                                bottomLeft: Radius.circular(50),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                color: selectedMenu == 2
+                                                    ? Colors.white
+                                                    : tx.themeTextColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: AnimatedContainer(
+                                        width: widthTabBar,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          color: selectedMenu != 2
+                                              ? tx.themeColor
+                                              : Colors.black,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            // bottomLeft: Radius.circular(20),
+                                          ),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.grey[200]!,
+                                          ),
+                                        ),
+                                        duration: Duration(seconds: 1),
+                                        curve: Curves.fastOutSlowIn,
+                                        child: Column(
+                                          children: menu(tx),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+                    ),
+            ],
+          );
+        }),
       ),
     );
   }
 
-  List<Widget> menu() {
+  List<Widget> menu(ThemeViewModel tx) {
     var menu = [
       Expanded(
         child: GestureDetector(
@@ -252,8 +278,8 @@ class _MainTabmenutate extends State<MainTabPage>
               selectedMenu == 0
                   ? 'assets/svg/navbar/home-on.svg'
                   : 'assets/svg/navbar/home-off.svg',
-              width: 18,
-              color: selectedMenu == 2 ? Colors.white : null,
+              width: 22,
+              color: selectedMenu == 2 ? Colors.white : tx.themeTextColor,
             ),
           ),
         ),
@@ -268,8 +294,8 @@ class _MainTabmenutate extends State<MainTabPage>
               selectedMenu == 1
                   ? 'assets/svg/navbar/search-on.svg'
                   : 'assets/svg/navbar/search-off.svg',
-              width: 18,
-              color: selectedMenu == 2 ? Colors.white : null,
+              width: 22,
+              color: selectedMenu == 2 ? Colors.white : tx.themeTextColor,
             ),
           ),
         ),
@@ -284,8 +310,8 @@ class _MainTabmenutate extends State<MainTabPage>
               selectedMenu == 2
                   ? 'assets/svg/navbar/reels-on.svg'
                   : 'assets/svg/navbar/reels-off.svg',
-              width: selectedMenu == 2 ? 26 : 18,
-              color: selectedMenu == 2 ? Colors.white : null,
+              width: 22,
+              color: selectedMenu == 2 ? Colors.white : tx.themeTextColor,
             ),
           ),
         ),
@@ -300,31 +326,29 @@ class _MainTabmenutate extends State<MainTabPage>
               selectedMenu == 3
                   ? 'assets/svg/navbar/shopping-on.svg'
                   : 'assets/svg/navbar/shopping-off.svg',
-              width: 18,
-              color: selectedMenu == 2 ? Colors.white : null,
+              width: 22,
+              color: selectedMenu == 2 ? Colors.white : tx.themeTextColor,
             ),
           ),
         ),
       ),
-      GestureDetector(
-        onTap: () {
-          _onItemTapped(4);
-        },
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: ExtendedImage.network(
-              'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
-              width: 25,
-              height: 25,
-              fit: BoxFit.cover,
-              cache: true,
-              borderRadius: BorderRadius.all(
-                Radius.circular(50.0),
-              ),
-              //cancelToken: cancellationToken,
-            ),
+      Expanded(
+        child: GestureDetector(
+          onTap: () {
+            _onItemTapped(4);
+          },
+          child: Center(
+            child: tx.imagePP == null
+                ? CircleAvatar(
+                    radius: 15,
+                    backgroundImage:
+                        NetworkImage("https://picsum.photos/500/500?random=1"))
+                : CircleAvatar(
+                    radius: 15,
+                    backgroundImage: FileImage(
+                      File(tx.imagePP!.path),
+                    ),
+                  ),
           ),
         ),
       ),
